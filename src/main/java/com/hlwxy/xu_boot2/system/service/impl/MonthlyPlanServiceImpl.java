@@ -1,5 +1,6 @@
 package com.hlwxy.xu_boot2.system.service.impl;
 
+import com.hlwxy.xu_boot2.common.utils.BatchAuditUtil;
 import com.hlwxy.xu_boot2.system.dao.MonthlyPlanDao;
 import com.hlwxy.xu_boot2.system.domain.*;
 import com.hlwxy.xu_boot2.system.service.MonthlyPlanService;
@@ -130,6 +131,11 @@ public class MonthlyPlanServiceImpl implements MonthlyPlanService {
 	@Override
 	public void updateMonthlyPlanStateById(MonthlyPlan monthlyPlan) {
 		monthlyPlanDao.updateMonthlyPlanStateById(monthlyPlan);
+	}
+
+	@Override
+	public void updateMonthlyPlanStateListById(BatchAuditUtil batchAuditUtil) {
+		monthlyPlanDao.updateMonthlyPlanStateListById(batchAuditUtil);
 	}
 
 	@Override

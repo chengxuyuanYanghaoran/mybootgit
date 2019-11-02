@@ -1,5 +1,6 @@
 package com.hlwxy.xu_boot2.system.controller;
 
+import com.hlwxy.xu_boot2.common.utils.BatchAuditUtil;
 import com.hlwxy.xu_boot2.common.utils.DateTool;
 import com.hlwxy.xu_boot2.system.domain.*;
 import com.hlwxy.xu_boot2.system.service.MonthlyPlanService;
@@ -9,10 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 
 /**
@@ -235,6 +234,25 @@ public class MonthlyController {
 		Map<String,Object> map=new HashMap<>();
 		try{
 			monthlyPlanService.updateMonthlyPlanStateById(monthlyPlan);
+			map.put("code",0);
+		}catch (Exception e){
+			map.put("code",-1);
+			map.put("msg","系统异常");
+		}
+		return map;
+	}
+
+	//批量审核月计划
+	@ResponseBody
+	@RequestMapping("/updateMonthlyPlanStateListById")
+	@RequiresPermissions("system:monthly:sh")
+	public Map<String,Object> updateMonthlyPlanStateListById(String[] ids,String state) {
+		Map<String,Object> map=new HashMap<>();
+		BatchAuditUtil batchAuditUtil=new BatchAuditUtil();
+		batchAuditUtil.setIds(Arrays.asList(ids));
+		batchAuditUtil.setState(Integer.valueOf(state));
+		try{
+			monthlyPlanService.updateMonthlyPlanStateListById(batchAuditUtil);
 			map.put("code",0);
 		}catch (Exception e){
 			map.put("code",-1);

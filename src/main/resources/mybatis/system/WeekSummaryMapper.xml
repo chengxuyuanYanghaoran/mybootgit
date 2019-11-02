@@ -90,8 +90,8 @@
 	<!-- 查询所有人当前月的总结 -->
 	<select id="findWeekSummary" parameterType="com.hlwxy.xu_boot2.system.domain.Page" resultMap="weekSummaryExtendDO">
 		SELECT
-			t_people.*,
-			t_week_summary.*
+			t_week_summary.*,
+			t_people.*
 		FROM
 			t_people
 		LEFT JOIN t_week_summary ON t_week_summary.id = t_people.week_summary_id
@@ -120,8 +120,8 @@
 	<!--根据公司编号查询 本月份 公司下的所有人的总结-->
 	<select id="findWeekSummaryByCompany" parameterType="com.hlwxy.xu_boot2.system.domain.CompanyDO" resultMap="weekSummaryExtendDO">
 		SELECT
-		t_people.*,
-		t_week_summary.*
+		t_week_summary.*,
+		t_people.*
 		FROM
 		t_people
 		LEFT JOIN t_week_summary ON t_week_summary.id=t_people.week_summary_id
@@ -131,8 +131,8 @@
 	<!--根据部门id查询 本月份 部门下的所有人的总结-->
 	<select id="findWeekSummaryByDepartment" parameterType="com.hlwxy.xu_boot2.system.domain.DepartmentDO" resultMap="weekSummaryExtendDO">
 		SELECT
-		t_people.*,
-		t_week_summary.*
+		t_week_summary.*,
+		t_people.*
 		FROM
 		t_people
 		LEFT JOIN t_week_summary ON t_week_summary.id=t_people.week_summary_id
@@ -194,9 +194,17 @@
 		UPDATE t_week_summary SET week_summary_content = '${week_summary_content}',week_summary_state=${week_summary_state},week_summary_entry_time='${week_summary_entry_time}' WHERE id = '${weekSummaryId}'
 	</update>
 
-	<!--修改计划状态-->
+	<!--修改周总结状态-->
 	<update id="updateWeekSummaryStateById" parameterType="com.hlwxy.xu_boot2.system.domain.WeekSummaryDO">
 		UPDATE t_week_summary SET week_summary_state = ${week_summary_state} WHERE id = ${id}
+	</update>
+
+	<!--批量修改周总结状态-->
+	<update id="updateWeekSummaryStateListById" parameterType="com.hlwxy.xu_boot2.common.utils.BatchAuditUtil">
+		UPDATE t_week_summary SET week_summary_state = ${state} WHERE id IN
+		<foreach collection="ids" item="list" index="index" open="(" separator="," close=")" >
+			'${list}'
+		</foreach>
 	</update>
 
 </mapper>

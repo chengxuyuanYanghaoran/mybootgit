@@ -103,8 +103,8 @@
 	<!-- 查询所有人当前月的总结 -->
 	<select id="findDaySummary" parameterType="com.hlwxy.xu_boot2.system.domain.Page" resultMap="daySummaryExtendDO">
 		SELECT
-			t_people.*,
-			t_day_summary.*
+			t_day_summary.*,
+			t_people.*
 		FROM
 			t_people
 		LEFT JOIN t_day_summary ON t_day_summary.id = t_people.day_summary_id
@@ -135,8 +135,8 @@
 	<!--根据公司编号查询 本月份 公司下的所有人的总结-->
 	<select id="findDaySummaryByCompany" parameterType="com.hlwxy.xu_boot2.system.domain.CompanyDO" resultMap="daySummaryExtendDO">
 		SELECT
-		t_people.*,
-		t_day_summary.*
+		t_day_summary.*,
+		t_people.*
 		FROM
 		t_people
 		LEFT JOIN t_day_summary ON t_day_summary.id=t_people.day_summary_id
@@ -146,8 +146,8 @@
 	<!--根据部门id查询 本月份 部门下的所有人的总结-->
 	<select id="findDaySummaryByDepartment" parameterType="com.hlwxy.xu_boot2.system.domain.DepartmentDO" resultMap="daySummaryExtendDO">
 		SELECT
-		t_people.*,
-		t_day_summary.*
+		t_day_summary.*,
+		t_people.*
 		FROM
 		t_people
 		LEFT JOIN t_day_summary ON t_day_summary.id=t_people.day_summary_id
@@ -212,6 +212,14 @@
 	<!--修改计划状态-->
 	<update id="updateDaySummaryStateById" parameterType="com.hlwxy.xu_boot2.system.domain.DaySummaryDo">
 		UPDATE t_day_summary SET day_summary_state = ${day_summary_state} WHERE id = ${id}
+	</update>
+
+	<!--批量修改日计划状态-->
+	<update id="updateDaySummaryStateListById" parameterType="com.hlwxy.xu_boot2.common.utils.BatchAuditUtil">
+		UPDATE t_day_summary SET day_summary_state = ${state} WHERE id IN
+		<foreach collection="ids" item="list" index="index" open="(" separator="," close=")" >
+			'${list}'
+		</foreach>
 	</update>
 
 </mapper>

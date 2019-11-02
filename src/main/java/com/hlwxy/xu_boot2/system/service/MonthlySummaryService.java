@@ -2,6 +2,7 @@ package com.hlwxy.xu_boot2.system.service;
 
 
 
+import com.hlwxy.xu_boot2.common.utils.BatchAuditUtil;
 import com.hlwxy.xu_boot2.system.domain.*;
 
 import java.util.List;
@@ -34,4 +35,6 @@ public interface MonthlySummaryService {
 	void updateMonthlySummaryContentByPeople(MonthlySummaryExtendDO monthlySummaryExtendDO);
 	//修改总结状态
 	void updateMonthlySummaryStateById(MonthlySummaryDO monthlySummaryDO);
+	//批量修改总结状态
+	void updateMonthlySummaryStateListById(BatchAuditUtil batchAuditUtil);
 }

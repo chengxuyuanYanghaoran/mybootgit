@@ -150,8 +150,10 @@ function saveOne(re) {
             if(result.code==0){
                 if(week_plan_state==1){
                     alert("保存成功！");
+                    location.reload();
                 }else if (week_plan_state==2){
                     alert("提交成功！");
+                    location.reload();
                 }else {
                     alert("系统异常！")
                 }
@@ -191,8 +193,10 @@ function saveTwice(re) {
             if(result.code==0){
                 if(week_summary_state==1){
                     alert("保存成功！");
+                    location.reload();
                 }else if (week_summary_state==2){
                     alert("提交成功！");
+                    location.reload();
                 }else {
                     alert("系统异常！")
                 }

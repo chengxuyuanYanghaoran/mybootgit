@@ -161,6 +161,26 @@ body{
 #confirm{
     margin-left: 40px;
 }
+/*批量审核*/
+.pop_mainList{
+    display: none;
+}
+.pop_conList{
+    position: absolute;
+    width: 260px;
+    height: 170px;
+    background-color: #888888;
+    left: 600px;
+}
+.cancelList{
+    width: 40px;
+    height: 25px;
+    background-color: whitesmoke;
+    color: black;
+}
+#confirmList{
+    margin-left: 40px;
+}
 /*回到顶部*/
 #back-to-top {
     width: 40px;

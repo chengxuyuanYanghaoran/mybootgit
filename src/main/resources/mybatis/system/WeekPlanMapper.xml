@@ -79,8 +79,8 @@
 	<!-- 查询所有人当前月的计划 -->
 	<select id="findWeekPlan" parameterType="com.hlwxy.xu_boot2.system.domain.Page" resultMap="weekPeopleDO">
 		SELECT
-			t_people.*,
-			t_week_plan.*
+			t_week_plan.*,
+			t_people.*
 		FROM
 			t_people
 		LEFT JOIN t_week_plan ON t_week_plan.id = t_people.week_plan_id
@@ -107,8 +107,8 @@
 	<!--根据公司编号查询 本月份 公司下的所有人的计划-->
 	<select id="findWeekPlanByCompany" parameterType="com.hlwxy.xu_boot2.system.domain.CompanyDO" resultMap="weekPeopleDO">
 		SELECT
-		t_people.*,
-		t_week_plan.*
+		t_week_plan.*,
+		t_people.*
 		FROM
 		t_people
 		LEFT JOIN t_week_plan ON t_week_plan.id=t_people.week_plan_id
@@ -118,8 +118,8 @@
 	<!--根据部门id查询 本月份 部门下的所有人的计划-->
 	<select id="findWeekPlanByDepartment" parameterType="com.hlwxy.xu_boot2.system.domain.DepartmentDO" resultMap="weekPeopleDO">
 		SELECT
-		t_people.*,
-		t_week_plan.*
+		t_week_plan.*,
+		t_people.*
 		FROM
 		t_people
 		LEFT JOIN t_week_plan ON t_week_plan.id=t_people.week_plan_id
@@ -185,5 +185,12 @@
 	<!--修改计划状态-->
 	<update id="updateWeekPlanStateById" parameterType="com.hlwxy.xu_boot2.system.domain.WeekPlanDO">
 		UPDATE t_week_plan SET week_plan_state = ${week_plan_state} WHERE id = ${id}
+	</update>
+	<!--批量修改周计划状态-->
+	<update id="updateWeekPlanStateListById" parameterType="com.hlwxy.xu_boot2.common.utils.BatchAuditUtil">
+		UPDATE t_week_plan SET week_plan_state = ${state} WHERE id IN
+		<foreach collection="ids" item="list" index="index" open="(" separator="," close=")" >
+			'${list}'
+		</foreach>
 	</update>
 </mapper>

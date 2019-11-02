@@ -1,5 +1,6 @@
 package com.hlwxy.xu_boot2.system.controller;
 
+import com.hlwxy.xu_boot2.common.utils.BatchAuditUtil;
 import com.hlwxy.xu_boot2.common.utils.DateTool;
 import com.hlwxy.xu_boot2.system.domain.*;
 import com.hlwxy.xu_boot2.system.service.DayPlanService;
@@ -11,10 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 
 /**
@@ -254,6 +252,25 @@ public class DayPlanController {
 		Map<String,Object> map=new HashMap<>();
 		try{
 			dayPlanService.updateDayPlanStateById(dayPlanDO);
+			map.put("code",0);
+		}catch (Exception e){
+			map.put("code",-1);
+			map.put("msg","系统异常");
+		}
+		return map;
+	}
+
+	//批量审核日计划
+	@ResponseBody
+	@RequestMapping("/updateDayPlanStateListById")
+	@RequiresPermissions("system:monthly:sh")
+	public Map<String,Object> updateDayPlanStateListById(String[] ids,String state) {
+		Map<String,Object> map=new HashMap<>();
+		BatchAuditUtil batchAuditUtil=new BatchAuditUtil();
+		batchAuditUtil.setIds(Arrays.asList(ids));
+		batchAuditUtil.setState(Integer.valueOf(state));
+		try{
+			dayPlanService.updateDayPlanStateListById(batchAuditUtil);
 			map.put("code",0);
 		}catch (Exception e){
 			map.put("code",-1);

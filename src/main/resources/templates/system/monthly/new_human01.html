@@ -13,13 +13,72 @@
     <!--<script src="../layui-v2.5.5/layui/layui.js"></script>-->
     <script src="/static/layui-v2.5.5/layui/layui.js"></script>
 </head>
+<script>
+    $(function() {
+        // 给全选按钮添加点击事件
+        $("#selectAll").click(function() {
+            var flag = document.getElementById("selectAll").checked;//获取全选的状态
+            setAll(flag);//让所有条目复选框与全选同步
+        });
+        // 给条目复选框添加事件
+        $("input:checkbox[name='operate_check']").click(function() {
+            var selectedCount = $("input:checkbox[name='operate_check'][checked=true]").length;//被勾选复选框个数
+            var allCount = $("input:checkbox[name='operate_check']").length;//所有条目复选框个数
+            if(selectedCount == allCount) {//全选了
+                $("#selectAll").attr("checked", true);//勾选全选复选框
+            }else {//未全选
+                $("#selectAll").attr("checked", false);//撤消全选复选框
+            }
+        });
+    });
+    // 设置所有条目复选框
+    function setAll(flag) {
+        $("input:checkbox[name='operate_check']").attr("checked", flag);//让所有条目的复选框与参数flag同步
+    }
 
+    /*
+    * 批量审核
+    * */
+    function examineList(state) {
+        var monthlyPlanIdArray = new Array();
+        var pid=state;
+        var ci = document.getElementsByName("operate_check");
+        $("input:checkbox[name='operate_check']").each(function() {
+            if ($(this).is(":checked")){
+                if ($(this).val()!="null"){
+                    monthlyPlanIdArray.push($(this).val());//把复选框的值添加到数组中
+                }
+            }
+        });
+        $.ajax({
+            async: false,
+            url: "/system/monthlySummary/updateMonthlySummaryStateListById",
+            data:{"ids":monthlyPlanIdArray,"state":pid},
+            type:"post",
+            traditional:true,
+            datatype:"json",
+            success: function (res) {
+                if (res.code==null){
+                    alert("您的权限不足！")
+                }else {
+                    if (res.code==0){
+                        alert("审核成功！");
+                        location.reload();
+                    }else {
+                        alert("系统异常！");
+                    }
+                }
+            }
+        });
+    }
+</script>
 <body>
 
 <p><img src="/static/img/c.PNG" style="margin-left: -180px"/></p>
 <!--查询-->
 <div class="sum_day" style="margin-top: -10px">
     <div class="month_T">
+        <input type="button" value="批量审核" data-method="setTop" class="btn btn-primary btn-lg active btn btn-primary btn-sm" onclick="sssList()"  id="examine"/>
         <input type="button" value="添加总结" class="btn btn-primary btn-lg active btn btn-primary btn-sm" data-method="setTop" onclick="writeCurrentDate()" id="addTwo"/>
         <input type="text" value="" class="data_text" id="data_text01" placeholder="按人员查询"/>
         <input type="text" value="" class="data_text" id="data_text02" placeholder="按部门查询"/>
@@ -40,13 +99,24 @@
         </div>
     </div>
 </div>
-
+<!--批量审核-->
+<div class="pop_mainList">
+    <div class="pop_conList">
+        <div class="pop_detail">
+            <p class="pop_text">是否通过审核？</p>
+        </div>
+        <div class="pop_footer">
+            <input type="button" value="通过" class="cancel" name="4" id="cancelList" onclick="examineList(this.name)">
+            <input type="button" value="驳回" class="cancel" name="3" id="confirmList" onclick="examineList(this.name)">
+        </div>
+    </div>
+</div>
 <!--表格-->
 <div class="table-responsive">
     <table border="1" class="table table-bordered table-hover" id="table_id">
         <thead>
         <tr>
-            <td><input type="checkbox" value="全选" onclick="checkedAll(this) " /></td>
+            <td><input type="checkbox" value="全选" id="selectAll" /></td>
             <td>工号</td>
             <td>人员名称</td>
             <td>总结时间</td>
@@ -92,14 +162,14 @@
 
         <textarea type="text" placeholder="该写总结了，亲！" id="text_I_two" class="text_I"  readonly ></textarea>
         <div class="layui_btn_value">
-            <input type="button" value="提交" class="btn_value" onclick="saveTwice(this.value)">
-            <input type="button" value="保存" class="btn_value" onclick="saveTwice(this.value)">
-            <input type="button" value="修改" class="btn_value" onclick="editEnable_Twice(this)">
+            <input type="button" value="提交" id="addSummary" class="btn_value" onclick="saveTwice(this.value)">
+            <input type="button" value="保存" id="saveSummary" class="btn_value" onclick="saveTwice(this.value)">
+            <input type="button" value="修改" id="updateSummary" class="btn_value" onclick="editEnable_Twice(this)">
         </div>
 
         <!--月计划内容-->
         <div>
-            <a href="javascript:showSign()" class="btn_a" id="btn_a" status="off" contchar="">本月、本周的计划</a>
+            <a href="javascript:showSign()" class="btn_a" id="btn_a" status="off" contchar="">本月的计划</a>
         </div>
 
         <div class="signWrap_two" id="signWrap_two" style="display:none;">

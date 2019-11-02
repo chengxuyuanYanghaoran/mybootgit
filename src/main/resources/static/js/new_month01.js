@@ -116,8 +116,10 @@ function saveOne(re) {
             if(result.code==0){
                 if(monthly_plan_state==1){
                     alert("保存成功！");
+                    location.reload();
                 }else if (monthly_plan_state==2){
                     alert("提交成功！");
+                    location.reload();
                 }else {
                     alert("系统异常！")
                 }
@@ -157,8 +159,10 @@ function saveTwice(re) {
             if(result.code==0){
                 if(monthly_summary_state==1){
                     alert("保存成功！");
+                    location.reload();
                 }else if (monthly_summary_state==2){
                     alert("提交成功！");
+                    location.reload();
                 }else {
                     alert("系统异常！")
                 }

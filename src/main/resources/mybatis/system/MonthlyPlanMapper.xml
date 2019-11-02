@@ -74,8 +74,8 @@
 	<!-- 查询所有人当前月的计划 -->
 	<select id="findMonthlyPlan" parameterType="com.hlwxy.xu_boot2.system.domain.Page" resultMap="monthlyPeopleDO">
 		SELECT
-			t_people.*,
-			t_monthly_plan.*
+			t_monthly_plan.*,
+			t_people.*
 		FROM
 			t_people
 		LEFT JOIN t_monthly_plan ON t_monthly_plan.id = t_people.monthly_plan_id
@@ -98,8 +98,8 @@
 	<!-- 根据计划id查询计划 -->
 	<select id="getMonthlyPlanById" parameterType="com.hlwxy.xu_boot2.system.domain.MonthlyPlan" resultMap="monthlyPeopleDO">
 		SELECT
-			t_people.*,
-			t_monthly_plan.*
+			t_monthly_plan.*,
+			t_people.*
 		FROM
 			t_monthly_plan
 			LEFT JOIN t_people ON t_monthly_plan.peo_id = t_people.id
@@ -110,8 +110,8 @@
 	<!-- 根据计划月份查询计划 -->
 	<select id="findMonthlyPlanByTime" parameterType="com.hlwxy.xu_boot2.system.domain.MonthlyPlan" resultMap="monthlyPeopleDO">
 		SELECT
-		t_people.*,
-		t_monthly_plan.*
+		t_monthly_plan.*,
+		t_people.*
 		FROM
 		t_monthly_plan
 		LEFT JOIN t_people ON t_monthly_plan.id=t_people.monthly_plan_id
@@ -125,8 +125,8 @@
 	<!--根据公司编号查询 本月份 公司下的所有人的计划-->
 	<select id="findMonthlyPlanByCompany" parameterType="com.hlwxy.xu_boot2.system.domain.CompanyDO" resultMap="monthlyPeopleDO">
 		SELECT
-		t_people.*,
-		t_monthly_plan.*
+		t_monthly_plan.*,
+		t_people.*
 		FROM
 		t_people
 		LEFT JOIN t_monthly_plan ON t_monthly_plan.id=t_people.monthly_plan_id
@@ -140,8 +140,8 @@
 	<!--根据部门id查询 本月份 部门下的所有人的计划-->
 	<select id="findMonthlyPlanByDepartment" parameterType="com.hlwxy.xu_boot2.system.domain.DepartmentDO" resultMap="monthlyPeopleDO">
 		SELECT
-		t_people.*,
-		t_monthly_plan.*
+		t_monthly_plan.*,
+		t_people.*
 		FROM
 		t_people
 		LEFT JOIN t_monthly_plan ON t_monthly_plan.id=t_people.monthly_plan_id
@@ -216,6 +216,14 @@
 	<!--修改计划状态-->
 	<update id="updateMonthlyPlanStateById" parameterType="com.hlwxy.xu_boot2.system.domain.MonthlyPlan">
 		UPDATE t_monthly_plan SET monthly_plan_state = ${monthly_plan_state} WHERE id = ${id}
+	</update>
+
+	<!--批量修改月计划状态-->
+	<update id="updateMonthlyPlanStateListById" parameterType="com.hlwxy.xu_boot2.common.utils.BatchAuditUtil">
+		UPDATE t_monthly_plan SET monthly_plan_state = ${state} WHERE id IN
+		<foreach collection="ids" item="list" index="index" open="(" separator="," close=")" >
+			'${list}'
+		</foreach>
 	</update>
 
 	<!--根据人员id查询人员-->

@@ -1,6 +1,7 @@
 package com.hlwxy.xu_boot2.system.dao;
 
 
+import com.hlwxy.xu_boot2.common.utils.BatchAuditUtil;
 import com.hlwxy.xu_boot2.system.domain.*;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -39,5 +40,7 @@ public interface MonthlySummaryDao {
      void updateMonthlySummaryContentByPeople(MonthlySummaryExtendDO monthlySummaryExtendDO);
      //修改计划状态
      void updateMonthlySummaryStateById(MonthlySummaryDO monthlySummaryDO);
+     //批量修改总结状态
+     void updateMonthlySummaryStateListById(BatchAuditUtil batchAuditUtil);
 
 }

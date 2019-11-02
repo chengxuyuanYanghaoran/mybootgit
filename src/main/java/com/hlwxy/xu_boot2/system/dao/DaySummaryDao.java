@@ -3,6 +3,7 @@ package com.hlwxy.xu_boot2.system.dao;
 
 
 
+import com.hlwxy.xu_boot2.common.utils.BatchAuditUtil;
 import com.hlwxy.xu_boot2.system.domain.*;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -37,7 +38,8 @@ public interface DaySummaryDao {
      void updatePeopleByCode(PeopleDO peopleDO);
      //修改月总结内容
      void updateDaySummaryContentByPeople(DaySummaryExtendDO daySummaryExtendDO);
-     //修改计划状态
+     //修改日总结状态
      void updateDaySummaryStateById(DaySummaryDo daySummaryDo);
-
+     //批量修改日总结状态
+     void updateDaySummaryStateListById(BatchAuditUtil batchAuditUtil);
 }

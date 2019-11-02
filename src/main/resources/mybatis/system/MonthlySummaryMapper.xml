@@ -77,8 +77,8 @@
 	<!-- 查询所有人当前月的总结 -->
 	<select id="findSummarySummary" resultMap="monthlySummaryExtendDO">
 		SELECT
-			t_people.*,
-			t_monthly_summary.*
+			t_monthly_summary.*,
+			t_people.*
 		FROM
 			t_people
 		LEFT JOIN t_monthly_summary ON t_monthly_summary.id = t_people.monthly_summary_id
@@ -88,17 +88,6 @@
  	<select id="count" resultType="int">
 		select count(*) from t_people
 	</select>
-
-	<!--&lt;!&ndash; 根据计划id查询总结 &ndash;&gt;-->
-	<!--<select id="getMonthlySummaryById" parameterType="com.hlwxy.bootcurd.system.domain.MonthlySummaryDO" resultMap="monthlySummaryExtendDO">-->
-		<!--SELECT-->
-			<!--t_people.*,-->
-			<!--t_monthly_summary.*-->
-		<!--FROM-->
-			<!--t_monthly_summary-->
-			<!--LEFT JOIN t_people ON t_monthly_summary.id=t_people.monthly_summary_id-->
-		<!--WHERE t_monthly_summary.id=${id}-->
-	<!--</select>-->
 
 	<!-- 根据计划id查询总结 -->
 	<select id="getMonthlySummaryById" parameterType="com.hlwxy.xu_boot2.system.domain.MonthlySummaryDO" resultMap="monthlySummaryExtendDO">
@@ -116,8 +105,8 @@
 	<!-- 根据计划月份查询总结 -->
 	<select id="getMonthlySummaryByTime" parameterType="com.hlwxy.xu_boot2.system.domain.MonthlySummaryDO" resultMap="monthlySummaryExtendDO">
 		SELECT
-		t_people.*,
-		t_monthly_summary.*
+		t_monthly_summary.*,
+		t_people.*
 		FROM
 		t_monthly_summary
 		LEFT JOIN t_people ON t_monthly_summary.id=t_people.monthly_summary_id
@@ -127,8 +116,8 @@
 	<!--根据公司编号查询 本月份 公司下的所有人的总结-->
 	<select id="findMonthlySummaryByCompany" parameterType="com.hlwxy.xu_boot2.system.domain.CompanyDO" resultMap="monthlySummaryExtendDO">
 		SELECT
-		t_people.*,
-		t_monthly_summary.*
+		t_monthly_summary.*,
+		t_people.*
 		FROM
 		t_people
 		LEFT JOIN t_monthly_summary ON t_monthly_summary.id=t_people.monthly_summary_id
@@ -138,8 +127,8 @@
 	<!--根据部门id查询 本月份 部门下的所有人的总结-->
 	<select id="findMonthlySummaryByDepartment" parameterType="com.hlwxy.xu_boot2.system.domain.DepartmentDO" resultMap="monthlySummaryExtendDO">
 		SELECT
-		t_people.*,
-		t_monthly_summary.*
+		t_monthly_summary.*,
+		t_people.*
 		FROM
 		t_people
 		LEFT JOIN t_monthly_summary ON t_monthly_summary.id=t_people.monthly_summary_id
@@ -202,9 +191,17 @@
 		UPDATE t_monthly_summary SET monthly_summary_content = '${monthly_summary_content}',monthly_summary_state=${monthly_summary_state},monthly_summary_entry_time='${monthly_summary_entry_time}' WHERE id = '${monthlySummaryId}'
 	</update>
 
-	<!--修改计划状态-->
+	<!--修改总结状态-->
 	<update id="updateMonthlySummaryStateById" parameterType="com.hlwxy.xu_boot2.system.domain.MonthlySummaryDO">
 		UPDATE t_monthly_summary SET monthly_summary_state = ${monthly_summary_state} WHERE id = ${id}
+	</update>
+
+	<!--批量修改月总结状态-->
+	<update id="updateMonthlySummaryStateListById" parameterType="com.hlwxy.xu_boot2.common.utils.BatchAuditUtil">
+		UPDATE t_monthly_summary SET monthly_summary_state = ${state} WHERE id IN
+		<foreach collection="ids" item="list" index="index" open="(" separator="," close=")" >
+			'${list}'
+		</foreach>
 	</update>
 
 </mapper>

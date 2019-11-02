@@ -2,6 +2,7 @@ package com.hlwxy.xu_boot2.system.dao;
 
 
 
+import com.hlwxy.xu_boot2.common.utils.BatchAuditUtil;
 import com.hlwxy.xu_boot2.system.domain.*;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -38,5 +39,7 @@ public interface WeekPlanDao {
      void updateWeekPlanContentByPeople(WeekPlanExtendDO weekPlanExtendDO);
      //修改计划状态
      void updateWeekPlanStateById(WeekPlanDO weekPlanDO);
+     //批量修改周计划
+     void updateWeekPlanStateListById(BatchAuditUtil batchAuditUtil);
 
 }

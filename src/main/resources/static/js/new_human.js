@@ -20,14 +20,14 @@ window.onload=function () {
             $("tbody").html("");
             $.each(res.monthlyPlanExtends, function (index, obj) {
                 $("#table_id").append("<tr onmodify='false' id='trOne'>"+
-                    "<td name='operate_check_column'><input name='operate_check'type='checkbox' value=''></td>"+
-                    "<td name='column' id='"+obj["monthlyPlanId"]+"\"'>" + obj["jobNumber"] + "</td>" +
+                    "<td name='operate_check_column'><input name='operate_check'type='checkbox' value='"+obj["id"]+"'></td>"+
+                    "<td name='column' id='"+obj["id"]+"\"'>" + obj["jobNumber"] + "</td>" +
                     "<td name='column'>" + obj["peoName"] + "</td>" +
                     "<td name='column'>" + obj["monthly_plan_time"] + "</td>" +
                     "<td name='column'>" + obj["monthly_plan_entry_time"] + "</td>" +
-                    "<td><a href='#' id='"+obj["monthlyPlanId"]+"\' class='month_a' data-method=\"setTop\">查看</a></td>" +
+                    "<td><a href='#' id='"+obj["id"]+"\' class='month_a' data-method=\"setTop\">查看</a></td>" +
                     "<td id='"+obj["monthly_plan_code"]+"abc"+"\'>默认</td>"+
-                    "<td><input type=\"button\" value=\"审核\" name='"+obj["monthlyPlanId"]+"\' class=\"btn btn-primary btn-lg active btn btn-primary btn-sm\" id='btn' onclick='sss(this.name)'/></td>" +
+                    "<td><input type=\"button\" value=\"审核\" name='"+obj["id"]+"\' class=\"btn btn-primary btn-lg active btn btn-primary btn-sm\" id='btn' onclick='sss(this.name)'/></td>" +
                     "</tr>"
                 );
                 //判断日志状态
@@ -104,34 +104,27 @@ window.onload=function () {
     })
 }
 
-// //展示层的隐藏与显示
-// $(document).ready(function() {
-//     alert(111)
-//
-// });
-
 
 // 全选与取消全选
-var flag = 1;
-function checkedAll(obj) {
-    if (flag == 1) {
-        obj.value = "取消全选";
-        // input:checkbox[name='operate_check'] : 取得选中框的数目
-        $("input:checkbox[name='operate_check']").each(function () {
-            this.checked = true;
-        });
-        flag = 2;
-    }
-    else {
-        obj.value = "全选";
-        $("input:checkbox[name='operate_check']").each(function () {
-            this.checked = false;
-        });
-        flag = 1;
-    }
+// var flag = 1;
+// function checkedAll(obj) {
+//     if (flag == 1) {
+//         obj.value = "取消全选";
+//         // input:checkbox[name='operate_check'] : 取得选中框的数目
+//         $("input:checkbox[name='operate_check']").each(function () {
+//             this.checked = true;
+//         });
+//         flag = 2;
+//     }
+//     else {
+//         obj.value = "全选";
+//         $("input:checkbox[name='operate_check']").each(function () {
+//             this.checked = false;
+//         });
+//         flag = 1;
+//     }
+// }
 
-
-}
 // :checked 自动勾选新添加项
 function delSome() {
     $("input[name='operate_check']:checked").each(function () {
@@ -169,14 +162,14 @@ function monthplanSelect() {
             });
             $.each(res.monthlyPlan1, function (index, obj) {
                 $("#table_id").append("<tr onmodify='false' id='trOne'>"+
-                    "<td name='operate_check_column'><input name='operate_check'type='checkbox' value=''></td>"+
-                    "<td name='column' id='"+obj["monthlyPlanId"]+"\"'>" + obj["jobNumber"] + "</td>" +
+                    "<td name='operate_check_column'><input name='operate_check'type='checkbox' value='"+obj["id"]+"'></td>"+
+                    "<td name='column' id='"+obj["id"]+"\"'>" + obj["jobNumber"] + "</td>" +
                     "<td name='column'>" + obj["peoName"] + "</td>" +
                     "<td name='column'>" + obj["monthly_plan_time"] + "</td>" +
                     "<td name='column'>" + obj["monthly_plan_entry_time"] + "</td>" +
                     "<td><a href='#' id='"+obj["id"]+"\' class='month_a' data-method=\"setTop\">查看</a></td>" +
                     "<td id='"+obj["monthly_plan_code"]+"abc"+"\'>默认</td>"+
-                    "<td><input type=\"button\" value=\"审核\" name='"+obj["monthlyPlanId"]+"\' class=\"btn btn-primary btn-lg active btn btn-primary btn-sm\" id='btn'  onclick='sss(this.name)'/></td>" +
+                    "<td><input type=\"button\" value=\"审核\" name='"+obj["id"]+"\' class=\"btn btn-primary btn-lg active btn btn-primary btn-sm\" id='btn'  onclick='sss(this.name)'/></td>" +
                     "</tr>"
                 );
                 //判断日志状态
@@ -258,8 +251,8 @@ function monthplanSelect() {
 
 }
 
+//弹出审核窗口
 function sss(res) {
-
     $('#cancel[name="4"]').attr("name",res)
     $('#confirm[name="3"]').attr("name",res)
     //显示弹窗的主界面
@@ -277,8 +270,25 @@ function sss(res) {
         $('.pop_con').animate({'top':0,'opacity':0.8});
         $('.pop_main').hide();
     })
+}
 
+//弹出批量审核窗口
+function sssList() {
+    //显示弹窗的主界面
+    $('.pop_mainList').show()
+    //设置animate动画初始值
+    $('.pop_conList').css({'top':0,'opacity':0})
+    $('.pop_conList').animate({'top':'50%','opacity':1})
 
+    //取消按钮和关闭按钮添加事件
+    $('#cancelList').click(function(){
+        $('.pop_conList').animate({'top':0,'opacity':0})
+    })
+    //确定按钮关闭
+    $("#confirmList").click(function () {
+        $('.pop_conList').animate({'top':0,'opacity':0.8});
+        $('.pop_mainList').hide();
+    })
 }
 
 
@@ -301,6 +311,7 @@ function Get_cancel(res) { //审核通过
             }else {
                 if (data.code==0){
                     alert("审核成功！");
+                    location.reload();
                 }else {
                     alert("系统异常！");
                 }
@@ -326,6 +337,7 @@ function Get_confirm(res) { //审核不通过
             }else {
                 if (data.code==0){
                     alert("审核成功！");
+                    location.reload();
                 }else {
                     alert("系统异常！");
                 }
@@ -409,14 +421,14 @@ function handleData(data1,data2) {
             $("tbody").html("");
             $.each(data.monthlyPlanExtends, function (index, obj) {
                 $("#table_id").append("<tr onmodify='false' id='trOne'>"+
-                    "<td name='operate_check_column'><input name='operate_check'type='checkbox' value=''></td>"+
-                    "<td name='column' id='"+obj["monthlyPlanId"]+"\"'>" + obj["jobNumber"] + "</td>" +
+                    "<td name='operate_check_column'><input name='operate_check'type='checkbox' value='"+obj["id"]+"'></td>"+
+                    "<td name='column' id='"+obj["id"]+"\"'>" + obj["jobNumber"] + "</td>" +
                     "<td name='column'>" + obj["peoName"] + "</td>" +
                     "<td name='column'>" + obj["monthly_plan_time"] + "</td>" +
                     "<td name='column'>" + obj["monthly_plan_entry_time"] + "</td>" +
-                    "<td><a href='#' id='"+obj["monthlyPlanId"]+"\' class='month_a' data-method=\"setTop\">查看</a></td>" +
+                    "<td><a href='#' id='"+obj["id"]+"\' class='month_a' data-method=\"setTop\">查看</a></td>" +
                     "<td id='"+obj["monthly_plan_code"]+"abc"+"\'>默认</td>"+
-                    "<td><input type=\"button\" value=\"审核\" name='"+obj["monthlyPlanId"]+"\' class=\"btn btn-primary btn-lg active btn btn-primary btn-sm\" id='btn' onclick='sss(this.name)'/></td>" +
+                    "<td><input type=\"button\" value=\"审核\" name='"+obj["id"]+"\' class=\"btn btn-primary btn-lg active btn btn-primary btn-sm\" id='btn' onclick='sss(this.name)'/></td>" +
                     // "<td><a href='#' id='week_a' class='week_a'>周计划-总结</a></td>"+
                     // "<td><a href='#' id='day_a' class='day_a'>日计划-总结</a></td>"+
                     "</tr>"
@@ -544,14 +556,14 @@ function queryHandleData(data1,data2) {
             });
             $.each(res.monthlyPlan1, function (index, obj) {
                 $("#table_id").append("<tr onmodify='false' id='trOne'>"+
-                    "<td name='operate_check_column'><input name='operate_check'type='checkbox' value=''></td>"+
-                    "<td name='column' id='"+obj["monthlyPlanId"]+"\"'>" + obj["jobNumber"] + "</td>" +
+                    "<td name='operate_check_column'><input name='operate_check'type='checkbox' value='"+obj["id"]+"'></td>"+
+                    "<td name='column' id='"+obj["id"]+"\"'>" + obj["jobNumber"] + "</td>" +
                     "<td name='column'>" + obj["peoName"] + "</td>" +
                     "<td name='column'>" + obj["monthly_plan_time"] + "</td>" +
                     "<td name='column'>" + obj["monthly_plan_entry_time"] + "</td>" +
                     "<td><a href='#' id='"+obj["id"]+"\' class='month_a' data-method=\"setTop\">查看</a></td>" +
                     "<td id='"+obj["monthly_plan_code"]+"abc"+"\'>默认</td>"+
-                    "<td><input type=\"button\" value=\"审核\" name='"+obj["monthlyPlanId"]+"\' class=\"btn btn-primary btn-lg active btn btn-primary btn-sm\" id='btn'  onclick='sss(this.name)'/></td>" +
+                    "<td><input type=\"button\" value=\"审核\" name='"+obj["id"]+"\' class=\"btn btn-primary btn-lg active btn btn-primary btn-sm\" id='btn'  onclick='sss(this.name)'/></td>" +
                     "</tr>"
                 );
                 //判断日志状态

@@ -1,6 +1,7 @@
 package com.hlwxy.xu_boot2.system.service.impl;
 
 
+import com.hlwxy.xu_boot2.common.utils.BatchAuditUtil;
 import com.hlwxy.xu_boot2.system.dao.DayPlanDao;
 import com.hlwxy.xu_boot2.system.dao.MonthlyPlanDao;
 import com.hlwxy.xu_boot2.system.domain.*;
@@ -120,5 +121,10 @@ public class DayPlanServiceImpl implements DayPlanService {
 	@Override
 	public void updateDayPlanStateById(DayPlanDO dayPlanDO) {
 		dayPlanDao.updateDayPlanStateById(dayPlanDO);
+	}
+
+	@Override
+	public void updateDayPlanStateListById(BatchAuditUtil batchAuditUtil) {
+		dayPlanDao.updateDayPlanStateListById(batchAuditUtil);
 	}
 }

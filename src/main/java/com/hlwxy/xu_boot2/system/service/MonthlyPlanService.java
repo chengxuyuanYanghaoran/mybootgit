@@ -2,6 +2,7 @@ package com.hlwxy.xu_boot2.system.service;
 
 
 
+import com.hlwxy.xu_boot2.common.utils.BatchAuditUtil;
 import com.hlwxy.xu_boot2.system.domain.*;
 
 import java.util.List;
@@ -50,6 +51,9 @@ public interface MonthlyPlanService {
 
 	//修改计划状态
 	void updateMonthlyPlanStateById(MonthlyPlan monthlyPlan);
+
+	//批量修改状态
+	void updateMonthlyPlanStateListById(BatchAuditUtil batchAuditUtil);
 
 	//根据人员账号查询人员
 	PeopleDO getPeopleById(PeopleDO peopleDO);

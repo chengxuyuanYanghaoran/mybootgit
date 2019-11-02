@@ -3,6 +3,7 @@ package com.hlwxy.xu_boot2.system.dao;
 
 
 
+import com.hlwxy.xu_boot2.common.utils.BatchAuditUtil;
 import com.hlwxy.xu_boot2.system.domain.*;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -39,5 +40,7 @@ public interface DayPlanDao {
      void updateDayPlanContentByPeople(DayPlanExtendDO dayPlanExtendDO);
      //修改计划状态
      void updateDayPlanStateById(DayPlanDO dayPlanDO);
+     //批量修改日计划
+     void updateDayPlanStateListById(BatchAuditUtil batchAuditUtil);
 
 }

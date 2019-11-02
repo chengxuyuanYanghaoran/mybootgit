@@ -1,5 +1,6 @@
 package com.hlwxy.xu_boot2.system.service.impl;
 
+import com.hlwxy.xu_boot2.common.utils.BatchAuditUtil;
 import com.hlwxy.xu_boot2.system.dao.DaySummaryDao;
 import com.hlwxy.xu_boot2.system.dao.MonthlyPlanDao;
 import com.hlwxy.xu_boot2.system.domain.*;
@@ -118,5 +119,10 @@ public class DaySummaryServiceImpl implements DaySummaryService {
 	@Override
 	public void updateDaySummaryStateById(DaySummaryDo daySummaryDo) {
 		daySummaryDao.updateDaySummaryStateById(daySummaryDo);
+	}
+
+	@Override
+	public void updateDaySummaryStateListById(BatchAuditUtil batchAuditUtil) {
+		daySummaryDao.updateDaySummaryStateListById(batchAuditUtil);
 	}
 }

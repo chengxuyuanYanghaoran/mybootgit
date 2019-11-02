@@ -2,6 +2,7 @@ package com.hlwxy.xu_boot2.system.service;
 
 
 
+import com.hlwxy.xu_boot2.common.utils.BatchAuditUtil;
 import com.hlwxy.xu_boot2.system.domain.*;
 
 import java.util.List;
@@ -32,4 +33,6 @@ public interface WeekSummaryService {
 	void updateWeekSummaryContentByPeople(WeekSummaryExtendDO weekSummaryExtendDO);
 	//修改计划状态
 	void updateWeekSummaryStateById(WeekSummaryDO weekSummaryDO);
+	//批量修改周总结状态
+	void updateWeekSummaryStateListById(BatchAuditUtil batchAuditUtil);
 }

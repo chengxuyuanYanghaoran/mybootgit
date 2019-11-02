@@ -1,6 +1,7 @@
 package com.hlwxy.xu_boot2.system.service.impl;
 
 
+import com.hlwxy.xu_boot2.common.utils.BatchAuditUtil;
 import com.hlwxy.xu_boot2.system.dao.MonthlyPlanDao;
 import com.hlwxy.xu_boot2.system.dao.MonthlySummaryDao;
 import com.hlwxy.xu_boot2.system.domain.*;
@@ -127,5 +128,10 @@ public class MonthlySummaryServiceImpl implements MonthlySummaryService {
 	@Override
 	public void updateMonthlySummaryStateById(MonthlySummaryDO monthlySummaryDO) {
 		monthlySummaryDao.updateMonthlySummaryStateById(monthlySummaryDO);
+	}
+
+	@Override
+	public void updateMonthlySummaryStateListById(BatchAuditUtil batchAuditUtil) {
+		monthlySummaryDao.updateMonthlySummaryStateListById(batchAuditUtil);
 	}
 }

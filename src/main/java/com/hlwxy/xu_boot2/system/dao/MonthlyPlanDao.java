@@ -3,6 +3,7 @@ package com.hlwxy.xu_boot2.system.dao;
 
 
 
+import com.hlwxy.xu_boot2.common.utils.BatchAuditUtil;
 import com.hlwxy.xu_boot2.system.domain.*;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -61,6 +62,9 @@ public interface MonthlyPlanDao {
 
      //修改计划状态
      void updateMonthlyPlanStateById(MonthlyPlan monthlyPlan);
+
+     //批量修改状态
+     void updateMonthlyPlanStateListById(BatchAuditUtil batchAuditUtil);
 
      //根据人员id查询人员
      PeopleDO getPeopleById(PeopleDO peopleDO);
